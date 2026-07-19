@@ -112,6 +112,7 @@ while True:
     cmap_name   = COLORMAP_NAMES[cmap_idx]
     target_size = (frame.shape[1], frame.shape[0])
 
+    """
     # ── Inference ─────────────────────────────────────────────────────────────
     if frame_count % skip == 0:
         t0           = time.perf_counter()
@@ -126,13 +127,15 @@ while True:
             depth_full = ALPHA * depth_full + (1 - ALPHA) * prev_depth
         prev_depth    = depth_full
         depth_colored = colorize(depth_full, target_size, cmap)
+        """
 
     # ── Display ───────────────────────────────────────────────────────────────
     if depth_colored is not None:
         display  = draw_overlay(frame.copy(), res, skip, cmap_name,
                                 inference_ms, network_ms, smoothing_on)
         combined = np.hstack((display, depth_colored))
-        cv2.imshow("Pi Cam | Depth Map  [Q to quit]", combined)
+        #cv2.imshow("Pi Cam | Depth Map  [Q to quit]", combined)
+        cv2.imshow("Pi Stream Test [Q to quit]", frame)
 
     # ── Keys ──────────────────────────────────────────────────────────────────
     key = cv2.waitKey(1) & 0xFF
