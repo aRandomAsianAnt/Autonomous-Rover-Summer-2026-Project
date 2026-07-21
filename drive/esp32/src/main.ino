@@ -96,7 +96,9 @@ struct MotorChannel {
     //If invert is true, reverse the direction to negate physical orientation.
     if (invert) speed = -speed;
     bool forward = speed >= 0;
-    digitalWrite(dirPin, forward ? HIGH : LOW);
+    //DIR=LOW is FORWARD per the verified MDD10A truth table (Wiring & Pinouts doc):
+    //PWM HIGH + DIR LOW = FORWARD, PWM HIGH + DIR HIGH = BACKWARD.
+    digitalWrite(dirPin, forward ? LOW : HIGH);
     analogWrite(pwmPin, abs(speed));
   }
 };
